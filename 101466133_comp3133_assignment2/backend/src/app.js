@@ -3,6 +3,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { ApolloServer } = require("apollo-server-express");
+const {
+  ApolloServerPluginLandingPageGraphQLPlayground,
+} = require("apollo-server-core");
 const { GraphQLScalarType, Kind } = require("graphql");
 
 const { connectDB } = require("./config/db");
@@ -50,6 +53,7 @@ async function initApp() {
   console.log("Cloudinary configured");
 
   await connectDB(process.env.MONGO_URI);
+  console.log("MongoDB connected");
 
   const server = new ApolloServer({
     typeDefs,
@@ -62,16 +66,23 @@ async function initApp() {
 
       try {
         user = authRequired(req);
-      } catch {
+      } catch (error) {
         user = null;
       }
 
       return { req, user };
     },
+    introspection: true,
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
 
   await server.start();
-  server.applyMiddleware({ app, path: "/graphql", cors: false });
+
+  server.applyMiddleware({
+    app,
+    path: "/graphql",
+    cors: false,
+  });
 
   app.get("/", (req, res) => {
     res.send("Backend is running");
