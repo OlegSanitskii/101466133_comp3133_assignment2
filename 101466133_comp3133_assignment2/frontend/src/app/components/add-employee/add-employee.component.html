@@ -1,0 +1,92 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Add Employee</h2>
+    <a routerLink="/employees" class="btn btn-secondary">Back</a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">First Name <span class="text-danger">*</span></label>
+            <input class="form-control" formControlName="first_name" [class.is-invalid]="isInvalid('first_name')" />
+            <div class="invalid-feedback">First name is required.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Last Name <span class="text-danger">*</span></label>
+            <input class="form-control" formControlName="last_name" [class.is-invalid]="isInvalid('last_name')" />
+            <div class="invalid-feedback">Last name is required.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Email <span class="text-danger">*</span></label>
+            <input class="form-control" formControlName="email" type="email" [class.is-invalid]="isInvalid('email')" />
+            <div class="invalid-feedback">Enter a valid email.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Gender <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="gender" [class.is-invalid]="isInvalid('gender')">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="invalid-feedback">Gender is required.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Position <span class="text-danger">*</span></label>
+            <input class="form-control" formControlName="position" [class.is-invalid]="isInvalid('position')" />
+            <div class="invalid-feedback">Position is required.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Department <span class="text-danger">*</span></label>
+            <input class="form-control" formControlName="department" [class.is-invalid]="isInvalid('department')" />
+            <div class="invalid-feedback">Department is required.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Salary <span class="text-danger">*</span></label>
+            <input class="form-control" formControlName="salary" type="number" [class.is-invalid]="isInvalid('salary')" />
+            <div class="invalid-feedback">Salary must be at least 1000.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Date of Joining <span class="text-danger">*</span></label>
+            <input class="form-control" formControlName="date_of_joining" type="date" [class.is-invalid]="isInvalid('date_of_joining')" />
+            <div class="invalid-feedback">Date of joining is required.</div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Employee Photo URL / Base64</label>
+            <input class="form-control" formControlName="employee_photo" />
+          </div>
+
+          <div class="col-12" *ngIf="employeeForm.value.employee_photo">
+            <label class="form-label">Photo Preview</label><br />
+            <img
+              [src]="employeeForm.value.employee_photo"
+              alt="Preview"
+              class="img-thumbnail"
+              style="max-width: 180px; max-height: 180px; object-fit: cover;"
+            />
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+          <button class="btn btn-success" type="submit" [disabled]="loading">
+            {{ loading ? 'Saving...' : 'Save Employee' }}
+          </button>
+          <a routerLink="/employees" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

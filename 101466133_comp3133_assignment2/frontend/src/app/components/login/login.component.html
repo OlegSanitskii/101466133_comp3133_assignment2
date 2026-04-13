@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <h3 class="mb-0">Login</h3>
+        </div>
+
+        <div class="card-body">
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label">Username or Email</label>
+              <input type="text" class="form-control" formControlName="usernameOrEmail" />
+              <div class="text-danger mt-1"
+                   *ngIf="loginForm.get('usernameOrEmail')?.touched && loginForm.get('usernameOrEmail')?.invalid">
+                Username or email is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" formControlName="password" />
+              <div class="text-danger mt-1"
+                   *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                Password is required.
+              </div>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit" [disabled]="loading">
+              {{ loading ? 'Logging in...' : 'Login' }}
+            </button>
+          </form>
+
+          <div class="mt-3 text-center">
+            <span>Don't have an account?</span>
+            <a routerLink="/signup" class="ms-1">Sign up</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
