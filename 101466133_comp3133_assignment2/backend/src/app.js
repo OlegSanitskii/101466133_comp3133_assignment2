@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const { ApolloServer } = require("apollo-server-express");
 const {
-  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageLocalDefault,
 } = require("apollo-server-core");
 const { GraphQLScalarType, Kind } = require("graphql");
 
@@ -73,7 +73,11 @@ async function initApp() {
       return { req, user };
     },
     introspection: true,
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    plugins: [
+      ApolloServerPluginLandingPageLocalDefault({
+        embed: true,
+      }),
+    ],
   });
 
   await server.start();
